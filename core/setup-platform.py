@@ -5,7 +5,8 @@ import yaml
 
 from shutil import copy
 from time import sleep
-from volttron.platform import set_home, certs
+from volttron.platform import set_home 
+from volttron.platform.auth import certs
 from volttron.platform.agent.known_identities import PLATFORM_WEB
 from volttron.utils import get_hostname
 from slogger import get_logger
@@ -300,12 +301,12 @@ def install_agents(agents):
             # form a virtual environment.
             envcpy["IGNORE_ENV_CHECK"] = "1"
             try:
-                subprocess.check_call(install_cmd, env=envcpy)
+                subprocess.check_output(install_cmd, env=envcpy)
             except subprocess.CalledProcessError as e:
                 # sometimes, the install command returns an Error saying that volttron couldn't install the agent, when in fact the agent was successfully installed
                 # this is most likely a bug in Volttron. For now, we are ignoring that error so that the setup of the Volttron platform does not fail and to allow Docker to start the container
-                sys.stderr.write(f"IGNORING ERROR: {e}")
-                slogger.debug(f"IGNORING ERROR: {e}")
+                sys.stderr.write(f"IGNORING ERROR: {e}\n{e.stdout}\n{e.stderr}\n")
+                slogger.debug(f"IGNORING ERROR: {e}\n{e.stdout}\n{e.stderr}\n")
                 failed_install.append(identity)
                 continue
 

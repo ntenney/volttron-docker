@@ -1,10 +1,14 @@
 version: '3.4'
-
 services:
   volttron1:
     container_name: volttron1
     hostname: volttron1
-    image: eclipsevolttron/volttron:v-docker-dev-latest
+    build:
+      context: .
+      dockerfile: Dockerfile-aems
+      args:
+        install_rmq: 'false'
+    image: eclipsevolttron/volttron:v-docker-dev-aems
     ports:
       # host_port:container_port
       # http port for volttron central
@@ -12,9 +16,11 @@ services:
     volumes:
       - ./platform_config.yml:/platform_config.yml
       - ./configs:/home/volttron/configs
+      - ./core:/startup
       - volttron1-volume:/home/volttron/db
     environment:
       - CONFIG=/home/volttron/configs
+      - AEMS=/code/aems
       - LOCAL_USER_ID=1000
 
 volumes:

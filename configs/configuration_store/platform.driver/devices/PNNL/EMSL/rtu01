@@ -1,0 +1,10 @@
+{
+  "driver_config": {
+    "address": "192.168.0.101",
+    "device_id": "1"
+  },
+  "interval": 60,
+  "driver_type": "bacnet",
+  "heart_beat_point": "HeartBeat",
+  "registry_config": "config://registry_configs/schneider.csv"
+}

@@ -8,11 +8,8 @@ services:
       dockerfile: Dockerfile-aems
       args:
         install_rmq: 'false'
-    image: eclipsevolttron/volttron:v-docker-dev-aems
-    ports:
-      # host_port:container_port
-      # http port for volttron central
-      - 8443:8443
+    image: natet/volttron-aems:v-docker-dev-aems
+    network_mode: host
     volumes:
       - ./platform_config.yml:/platform_config.yml
       - ./configs:/home/volttron/configs
@@ -22,6 +19,7 @@ services:
       - CONFIG=/home/volttron/configs
       - AEMS=/code/aems
       - LOCAL_USER_ID=1000
+      - TZ=America/Los_Angeles
 
 volumes:
   volttron1-volume:
